@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Innovation Club — St. Aloysius</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,500&family=JetBrains+Mono:wght@400;500;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFFCF2;
+    --yellow:#FFD400;
+    --yellow-soft:#FFF1AE;
+    --ink:#141310;
+    --charcoal:#4a4638;
+    --line: rgba(20,19,16,.12);
+    --line-strong: rgba(20,19,16,.9);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Archivo',sans-serif;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--ink);color:var(--yellow);}
+  a{color:inherit;text-decoration:none;}
+  img,svg{display:block;max-width:100%;}
+
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:998;opacity:.035;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .btn-solid:hover{animation:wobble .5s ease;}
+  @keyframes wobble{
+    0%,100%{transform:translateY(-3px) rotate(0deg);}
+    25%{transform:translateY(-5px) rotate(-2deg);}
+    75%{transform:translateY(-5px) rotate(2deg);}
+  }
+
+  .wrap{max-width:1240px;margin:0 auto;padding-left:6vw;padding-right:6vw;}
+
+  /* ===== NAV ===== */
+  header{
+    position:sticky;top:0;z-index:100;
+    background:var(--cream);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:20px 6vw;
+    max-width:1240px;margin:0 auto;
+  }
+  .logo{
+    font-family:'Archivo Black',sans-serif;
+    font-size:19px;letter-spacing:-.01em;text-transform:uppercase;
+    display:flex;align-items:center;gap:9px;
+  }
+  .logo .dot{width:11px;height:11px;background:var(--yellow);border:2px solid var(--ink);border-radius:50%;}
+
+  .brand{display:flex;align-items:center;gap:14px;}
+  .logo-slot{
+    width:44px;height:44px;border-radius:12px;
+    border:1.5px dashed var(--line-strong);
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
+    background:var(--yellow-soft);flex-shrink:0;
+  }
+  .logo-slot img{width:100%;height:100%;object-fit:contain;}
+  .logo-fallback{
+    width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  }
+  .logo-fallback .dot{width:13px;height:13px;background:var(--yellow);border:2px solid var(--ink);border-radius:50%;}
+  .logo-slot.college{background:var(--cream);border-style:solid;}
+  .college-fb{
+    width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+    font-family:'Archivo Black',sans-serif;font-size:13px;color:var(--charcoal);
+  }
+  .brand-div{width:1px;height:28px;background:var(--line-strong);flex-shrink:0;}
+  nav ul{list-style:none;display:flex;gap:36px;}
+  nav a{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;text-transform:uppercase;letter-spacing:.1em;
+    position:relative;padding-bottom:2px;
+  }
+  nav a::after{
+    content:"";position:absolute;left:0;bottom:-2px;width:0;height:2px;background:var(--ink);
+    transition:width .25s ease;
+  }
+  nav a:hover::after{width:100%;}
+  .nav-cta{
+    font-family:'JetBrains Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.08em;
+    background:var(--ink);color:var(--yellow);padding:10px 18px;border-radius:100px;
+    transition:transform .2s ease;
+  }
+  .nav-cta:hover{transform:translateY(-2px);}
+  .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:6px;}
+  .burger div{width:22px;height:2px;background:var(--ink);}
+  .mobile-nav{
+    display:none;flex-direction:column;gap:0;
+    background:var(--cream);border-bottom:1px solid var(--line);
+  }
+  .mobile-nav.open{display:flex;}
+  .mobile-nav a{
+    padding:16px 6vw;border-top:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace;font-size:13px;text-transform:uppercase;letter-spacing:.08em;
+  }
+
+  /* ===== HERO ===== */
+  .hero{
+    position:relative;
+    padding:9vw 6vw 7vw;
+    overflow:hidden;
+    border-bottom:1px solid var(--line);
+    background-image:radial-gradient(var(--line) 1.4px, transparent 1.4px);
+    background-size:22px 22px;
+    background-position:-4px -4px;
+  }
+  .hero-sun{
+    position:absolute;
+    width:min(60vw,640px);height:min(60vw,640px);
+    background:var(--yellow);
+    border-radius:50%;
+    top:-18%;right:-14%;
+    z-index:0;
+  }
+  .hero-content{position:relative;z-index:2;max-width:1240px;margin:0 auto;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--charcoal);margin-bottom:26px;
+    border:1px solid var(--line-strong);border-radius:100px;padding:8px 16px;
+  }
+  .eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ink);}
+
+  h1.hero-title{
+    font-family:'Archivo Black',sans-serif;
+    text-transform:uppercase;
+    font-size:clamp(44px,9vw,118px);
+    line-height:.92;letter-spacing:-.015em;
+    max-width:15ch;
+  }
+  h1.hero-title .hl{
+    background:var(--ink);color:var(--yellow);
+    padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+  }
+
+  .hero-foot{
+    margin-top:52px;display:flex;justify-content:space-between;align-items:flex-end;
+    gap:30px;flex-wrap:wrap;
+    border-top:1px solid var(--line-strong);padding-top:26px;
+  }
+  .hero-foot p{
+    max-width:460px;font-size:clamp(15px,1.6vw,18px);line-height:1.55;color:var(--charcoal);
+  }
+  .hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    font-family:'JetBrains Mono',monospace;font-size:13px;text-transform:uppercase;letter-spacing:.08em;
+    padding:16px 28px;border-radius:100px;white-space:nowrap;
+    transition:transform .2s ease, background .2s ease, color .2s ease;
+    display:inline-flex;align-items:center;gap:10px;
+  }
+  .btn-solid{background:var(--ink);color:var(--yellow);}
+  .btn-solid:hover{transform:translateY(-3px);}
+  .btn-line{border:1.5px solid var(--ink);color:var(--ink);}
+  .btn-line:hover{background:var(--ink);color:var(--yellow);transform:translateY(-3px);}
+
+  /* ===== SECTION SHARED ===== */
+  section{padding:100px 0;border-bottom:1px solid var(--line);position:relative;}
+  section.no-border{border-bottom:none;}
+  .kicker{
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--charcoal);margin-bottom:16px;display:flex;align-items:center;gap:10px;
+  }
+  .kicker::before{content:"";width:24px;height:1.5px;background:var(--ink);}
+  h2.h-title{
+    font-family:'Archivo Black',sans-serif;text-transform:uppercase;
+    font-size:clamp(32px,5.4vw,64px);line-height:.98;letter-spacing:-.01em;
+    margin-bottom:44px;
+  }
+
+  /* ===== ABOUT ===== */
+  .about-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:70px;align-items:start;}
+  .about-grid > div:first-child p{
+    font-size:clamp(17px,1.9vw,21px);line-height:1.65;color:var(--charcoal);margin-bottom:20px;max-width:620px;
+  }
+  .about-grid strong{color:var(--ink);background:var(--yellow-soft);padding:0 4px;}
+  .stat-card{
+    background:var(--ink);color:var(--cream);
+    border-radius:18px;padding:36px 32px;
+    position:relative;
+    box-shadow:6px 6px 0 var(--yellow);
+  }
+  .stat-card h3{
+    font-family:'JetBrains Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.15em;
+    color:var(--yellow);margin-bottom:26px;
+  }
+  .stat-row{display:flex;justify-content:space-between;align-items:baseline;padding:16px 0;border-top:1px solid rgba(255,252,242,.16);}
+  .stat-row:first-of-type{border-top:none;}
+  .stat-row .num{font-family:'Archivo Black',sans-serif;font-size:clamp(26px,3vw,36px);}
+  .stat-row .lbl{font-family:'JetBrains Mono',monospace;font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:#c9c4b0;text-align:right;max-width:150px;}
+
+  /* ===== AIM & VISION ===== */
+  .av-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--line-strong);border:1px solid var(--line-strong);border-radius:20px;overflow:hidden;}
+  .av-card{background:var(--cream);padding:44px 38px;}
+  .av-card.filled{background:var(--yellow);}
+  .av-card .icon{
+    width:46px;height:46px;border:2px solid var(--ink);border-radius:12px;
+    display:flex;align-items:center;justify-content:center;margin-bottom:26px;
+    font-family:'Archivo Black',sans-serif;font-size:19px;
+  }
+  .av-card h3{font-family:'Archivo Black',sans-serif;text-transform:uppercase;font-size:clamp(22px,2.6vw,28px);margin-bottom:16px;letter-spacing:-.01em;}
+  .av-card p{font-size:16px;line-height:1.65;color:var(--charcoal);}
+  .av-card.filled p{color:var(--ink);}
+
+  /* ===== FOCUS TRACKS ===== */
+  .tracklist{border-top:1px solid var(--line-strong);}
+  .track{
+    display:grid;grid-template-columns:56px 1fr auto;align-items:center;gap:22px;
+    padding:30px 0;border-bottom:1px solid var(--line);
+    transition:padding-left .25s ease,background .25s ease;
+  }
+  .track:hover{padding-left:12px;background:var(--yellow-soft);}
+  .track .num{font-family:'JetBrains Mono',monospace;color:var(--charcoal);font-size:13px;}
+  .track h4{font-family:'Archivo Black',sans-serif;text-transform:uppercase;font-size:clamp(20px,3vw,32px);letter-spacing:-.01em;}
+  .track .desc{grid-column:2/3;font-size:14px;color:var(--charcoal);margin-top:6px;max-width:520px;}
+  .track .tag{
+    font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+    border:1.5px solid var(--ink);padding:7px 14px;border-radius:100px;white-space:nowrap;
+  }
+
+  /* ===== PEOPLE ===== */
+  .people-tabs{display:flex;gap:10px;margin-bottom:40px;flex-wrap:wrap;}
+  .people-tabs button{
+    font-family:'JetBrains Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.08em;
+    padding:11px 20px;border-radius:100px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);
+    cursor:pointer;transition:background .2s ease,color .2s ease;
+  }
+  .people-tabs button.active{background:var(--ink);color:var(--yellow);}
+  .people-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .person-card{
+    border:1px solid var(--line-strong);border-radius:18px;overflow:hidden;background:var(--cream);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .person-card:hover{transform:translateY(-6px);box-shadow:8px 10px 0 var(--ink);}
+  .person-photo{
+    aspect-ratio:4/3;background:linear-gradient(135deg,var(--yellow),var(--yellow-soft));
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Archivo Black',sans-serif;font-size:44px;color:var(--ink);
+    border-bottom:1px solid var(--line-strong);
+  }
+  .person-info{padding:22px 22px 26px;}
+  .person-info h4{font-family:'Archivo Black',sans-serif;text-transform:uppercase;font-size:19px;margin-bottom:4px;}
+  .person-info span{font-family:'JetBrains Mono',monospace;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--charcoal);}
+  .person-card{display:none;}
+  .people-grid.show-coordinator .person-card[data-cat="coordinator"]{display:block;}
+  .people-grid.show-mentor .person-card[data-cat="mentor"]{display:block;}
+  .people-grid.show-all .person-card{display:block;}
+
+  /* ===== DROPS / EVENTS ===== */
+  .drops{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .drop{
+    border:1px solid var(--line-strong);border-radius:18px;padding:32px 28px;
+    min-height:280px;display:flex;flex-direction:column;justify-content:space-between;
+    transition:background .25s ease;
+  }
+  .drop:hover{background:var(--yellow-soft);}
+  .drop .dnum{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--charcoal);}
+  .drop h3{font-family:'Archivo Black',sans-serif;text-transform:uppercase;font-size:clamp(21px,2.6vw,26px);line-height:1.05;margin:18px 0 12px;}
+  .drop p{font-size:14px;color:var(--charcoal);line-height:1.55;}
+  .drop .status{margin-top:20px;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink);border-top:1px solid var(--line);padding-top:14px;}
+
+  /* ===== JOIN ===== */
+  .join{background:var(--ink);color:var(--cream);text-align:center;padding:110px 6vw;}
+  .join .kicker{color:#c9c4b0;justify-content:center;}
+  .join .kicker::before{background:var(--yellow);}
+  .join h2.h-title{color:var(--cream);}
+  .join h2.h-title .hl{background:var(--yellow);color:var(--ink);padding:0 .12em;}
+  .join-form{
+    display:flex;max-width:560px;margin:44px auto 0;
+    border-bottom:2px solid var(--yellow);padding-bottom:14px;gap:10px;
+  }
+  .join-form input{
+    flex:1;background:transparent;border:none;outline:none;color:var(--cream);
+    font-family:'Archivo',sans-serif;font-style:italic;font-size:19px;padding:8px 4px;
+  }
+  .join-form input::placeholder{color:#8a8574;}
+  .join-form button{
+    background:var(--yellow);color:var(--ink);border:none;border-radius:100px;
+    font-family:'JetBrains Mono',monospace;font-size:13px;text-transform:uppercase;letter-spacing:.08em;
+    padding:14px 24px;cursor:pointer;transition:transform .2s ease;
+  }
+  .join-form button:hover{transform:scale(1.05);}
+  .join small{display:block;margin-top:18px;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.05em;color:#8a8574;}
+
+  /* ===== FOOTER ===== */
+  footer{padding:50px 6vw;display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;background:var(--ink);color:#c9c4b0;}
+  footer .foot-logo{font-family:'Archivo Black',sans-serif;font-size:17px;text-transform:uppercase;color:var(--cream);}
+  footer .foot-links{display:flex;gap:24px;font-family:'JetBrains Mono',monospace;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;}
+  footer .foot-links a:hover{color:var(--yellow);}
+
+  /* ===== SKETCH / DOODLE LAYER ===== */
+  .doodle{position:absolute;pointer-events:none;z-index:3;}
+  .doodle path, .doodle circle, .doodle line{
+    stroke:var(--ink);stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round;
+  }
+  .doodle.yellow path, .doodle.yellow circle{stroke:var(--yellow);}
+
+  .draw-in path, .draw-in circle{
+    stroke-dasharray:600;stroke-dashoffset:600;
+    animation:draw 1.6s ease forwards;
+  }
+  @keyframes draw{to{stroke-dashoffset:0;}}
+
+  .bob{animation:bob 4.5s ease-in-out infinite;}
+  .bob.slow{animation-duration:6.5s;}
+  .bob.rev{animation-direction:reverse;}
+  @keyframes bob{
+    0%,100%{transform:translateY(0) rotate(0deg);}
+    50%{transform:translateY(-10px) rotate(-4deg);}
+  }
+
+  .spin-slow{animation:spin-slow 18s linear infinite;}
+  @keyframes spin-slow{to{transform:rotate(360deg);}}
+
+  /* hand-drawn circle around hero highlight word */
+  .circle-word{position:relative;display:inline-block;}
+  .circle-word svg{
+    position:absolute;left:-8%;top:-18%;width:116%;height:150%;z-index:-1;
+    overflow:visible;
+  }
+
+  /* squiggly underline under section titles */
+  .squiggle{display:block;margin-top:8px;}
+  .squiggle path{stroke:var(--yellow);stroke-width:6;}
+
+  /* handwritten note tags */
+  .note{
+    font-family:'Caveat',cursive;font-weight:700;font-size:22px;
+    color:var(--ink);transform:rotate(-4deg);display:inline-block;
+  }
+  .note.pin{position:absolute;z-index:4;}
+
+  /* pencil-scribble hover fill for buttons */
+  .btn{position:relative;overflow:hidden;}
+  .btn-line .scribble-fill{
+    position:absolute;inset:0;background:var(--ink);
+    clip-path:polygon(0 0,0 0,0 100%,0 100%);
+    transition:clip-path .35s cubic-bezier(.65,0,.35,1);
+    z-index:-1;
+  }
+  .btn-line:hover .scribble-fill{clip-path:polygon(0 0,100% 0,100% 100%,0 100%);}
+  .btn-line span{position:relative;z-index:1;}
+  .btn-line:hover span{color:var(--yellow);}
+
+  /* card tilt on hover */
+  .person-card, .drop, .av-card, .stat-card{transition:transform .3s ease, box-shadow .3s ease, background .25s ease;}
+  .person-card:hover{transform:translateY(-6px) rotate(-1deg);}
+  .drop:hover{transform:translateY(-5px) rotate(.6deg);}
+
+  /* torn-paper divider between sections */
+  .torn{
+    position:relative;height:26px;overflow:hidden;
+  }
+  .torn svg{width:100%;height:100%;display:block;}
+
+  /* dashed sketchy border variant */
+  .sketch-border{
+    border-style:dashed !important;border-width:2px !important;
+  }
+
+  /* cursor-ish pencil dot trail for hero */
+  .pencil-tip{
+    position:absolute;width:10px;height:10px;border:2px solid var(--ink);border-radius:50%;
+    opacity:.5;
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .bob, .spin-slow, .draw-in path, .draw-in circle{animation:none !important;}
+  }
+
+  /* ===== REVEAL ===== */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  @media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important;}}
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width:980px){
+    nav ul{display:none;}
+    .nav-cta{display:none;}
+    .burger{display:flex;}
+    .about-grid{grid-template-columns:1fr;gap:40px;}
+    .av-grid{grid-template-columns:1fr;}
+    .people-grid{grid-template-columns:repeat(2,1fr);}
+    .drops{grid-template-columns:1fr;}
+  }
+  @media (max-width:560px){
+    .logo{display:none;}
+    .logo-slot{width:38px;height:38px;}
+    .brand-div{height:24px;}
+    section{padding:70px 0;}
+    .hero{padding:32px 6vw 50px;}
+    .hero-sun{width:80vw;height:80vw;top:-30%;right:-30%;}
+    .people-grid{grid-template-columns:1fr;}
+    .track{grid-template-columns:36px 1fr;}
+    .track .tag{grid-column:2/3;justify-self:start;margin-top:10px;}
+    .track .desc{grid-column:1/-1;}
+    .join-form{flex-direction:column;border-bottom:none;}
+    .join-form input{border-bottom:2px solid var(--yellow);text-align:center;}
+    .join-form button{width:100%;justify-content:center;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <div class="brand">
+      <div class="logo-slot" title="Replace with club logo — src=&quot;your-club-logo.png&quot;">
+        <img src="" alt="Innovation Club logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="logo-fallback"><span class="dot"></span></div>
+      </div>
+      <span class="brand-div"></span>
+      <div class="logo-slot college" title="Replace with college logo — src=&quot;college-logo.png&quot;">
+        <img src="" alt="St. Aloysius College logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="logo-fallback college-fb">SA</div>
+      </div>
+      <div class="logo">Innovation Club</div>
+    </div>
+    <nav><ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#vision">Vision</a></li>
+      <li><a href="#tracks">Focus</a></li>
+      <li><a href="#people">People</a></li>
+      <li><a href="#drops">Events</a></li>
+    </ul></nav>
+    <a href="#join" class="nav-cta">Join us</a>
+    <button class="burger" id="burger" aria-label="Menu"><div></div><div></div><div></div></button>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#about">About</a>
+    <a href="#vision">Vision</a>
+    <a href="#tracks">Focus</a>
+    <a href="#people">People</a>
+    <a href="#drops">Events</a>
+    <a href="#join">Join us</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-sun"></div>
+  <div class="hero-content">
+    <div style="display:flex;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:26px;">
+      <div class="eyebrow" style="margin-bottom:0;">St. Aloysius School of Engineering · Mangalore</div>
+      <span class="note">est. 2024, come as you are ✎</span>
+    </div>
+    <h1 class="hero-title">Where curious engineers
+      <span class="circle-word">build
+        <svg viewBox="0 0 220 90" class="doodle draw-in" style="stroke:var(--ink)">
+          <path d="M12,45 C10,15 60,6 110,7 C165,8 210,18 208,46 C206,76 150,86 105,85 C55,84 14,74 12,45 Z"/>
+        </svg>
+      </span> what doesn't exist yet.</h1>
+    <div class="hero-foot">
+      <p>The Innovation Club is a student-run space for hardware, software, and applied ML projects — built by first-years through finals, guided by faculty who'd rather ask questions than give answers.</p>
+      <div class="hero-btns" style="position:relative;">
+        <a href="#join" class="btn btn-solid">Join the club →</a>
+        <a href="#about" class="btn btn-line"><span class="scribble-fill"></span><span>What we do</span></a>
+        <svg class="doodle bob" viewBox="0 0 90 60" width="80" height="55" style="top:-58px;left:2px;">
+          <path d="M4,6 C30,2 55,10 70,32" />
+          <path d="M56,24 L72,34 L58,44" />
+        </svg>
+      </div>
+    </div>
+  </div>
+  <svg class="doodle bob slow yellow" viewBox="0 0 40 40" width="34" height="34" style="top:14%;left:6%;">
+    <path d="M20,2 L23,17 L38,20 L23,23 L20,38 L17,23 L2,20 L17,17 Z"/>
+  </svg>
+  <svg class="doodle bob rev" viewBox="0 0 40 40" width="26" height="26" style="top:62%;left:3%;">
+    <circle cx="20" cy="20" r="15"/>
+  </svg>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="kicker">01 — About us</div>
+    <div class="about-grid reveal">
+      <div>
+        <h2 class="h-title">What the<br>club is.
+          <svg class="squiggle" width="150" height="18" viewBox="0 0 150 18"><path d="M2,10 C20,2 35,18 55,10 C75,2 90,18 110,10 C125,4 135,14 148,8"/></svg>
+        </h2>
+        <p>The Innovation Club is the School of Engineering's home for students who'd rather <strong>ship a working prototype</strong> than sit through another slide deck about innovation.</p>
+        <p>We run weekly build sessions, hackathon prep, and open project pods across hardware, apps, and applied machine learning — open to every branch and every year, from your first semester onward.</p>
+        <p>No club fee, no attendance sheet. You show up when you're building something, and you leave with people who'll debug it with you at 1am.</p>
+      </div>
+      <div class="stat-card">
+        <h3>At a glance</h3>
+        <div class="stat-row"><span class="num">3+</span><span class="lbl">Active project tracks</span></div>
+        <div class="stat-row"><span class="num">2</span><span class="lbl">Faculty mentors</span></div>
+        <div class="stat-row"><span class="num">Bi-weekly</span><span class="lbl">Build night cadence</span></div>
+        <div class="stat-row"><span class="num">All years</span><span class="lbl">Open to every branch</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="vision">
+  <div class="wrap">
+    <div class="kicker">02 — Aim &amp; vision</div>
+    <h2 class="h-title reveal">Why we exist.
+      <svg class="squiggle" width="180" height="18" viewBox="0 0 180 18"><path d="M2,10 C25,2 45,18 68,10 C90,2 112,18 135,10 C152,4 165,14 178,8"/></svg>
+    </h2>
+    <div class="av-grid reveal">
+      <div class="av-card">
+        <div class="icon">A</div>
+        <h3>Our aim</h3>
+        <p>To give every engineering student, regardless of year or branch, a low-pressure space to turn ideas into working prototypes — and the mentorship to push those prototypes further than a classroom project ever would.</p>
+      </div>
+      <div class="av-card filled">
+        <div class="icon">V</div>
+        <h3>Our vision</h3>
+        <p>A campus where building something real is the default extracurricular — where hackathon wins, published papers, and half-finished weekend builds all come from the same shared workshop culture.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tracks">
+  <div class="wrap">
+    <div class="kicker">03 — What we build</div>
+    <h2 class="h-title reveal" style="position:relative;">Focus tracks.
+      <svg class="squiggle" width="160" height="18" viewBox="0 0 160 18"><path d="M2,10 C22,2 40,18 60,10 C82,2 102,18 124,10 C138,4 150,14 158,8"/></svg>
+      <svg class="doodle bob yellow" viewBox="0 0 40 40" width="30" height="30" style="top:-14px;right:6%;"><path d="M20,2 L23,17 L38,20 L23,23 L20,38 L17,23 L2,20 L17,17 Z"/></svg>
+    </h2>
+    <div class="tracklist">
+      <div class="track reveal">
+        <div class="num">01</div>
+        <h4>Hardware &amp; Embedded</h4>
+        <span class="tag">ESP32 · Sensors</span>
+        <p class="desc">Assistive tech, IoT retrofits, and physical prototypes — from smart canes to campus infrastructure fixes.</p>
+      </div>
+      <div class="track reveal">
+        <div class="num">02</div>
+        <h4>Apps &amp; Product</h4>
+        <span class="tag">Flutter · Next.js</span>
+        <p class="desc">Full-stack builds for campus and community, shipped with real users and real feedback loops.</p>
+      </div>
+      <div class="track reveal">
+        <div class="num">03</div>
+        <h4>Applied ML</h4>
+        <span class="tag">Computer Vision · XGBoost</span>
+        <p class="desc">Vision models and prediction pipelines aimed at accessible health-tech and everyday problems.</p>
+      </div>
+      <div class="track reveal">
+        <div class="num">04</div>
+        <h4>Hackathon Squad</h4>
+        <span class="tag">Rapid Builds</span>
+        <p class="desc">The strike team for weekend hackathons — pitch decks, demos, and fast prototyping under pressure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="people">
+  <div class="wrap">
+    <div class="kicker">04 — Who runs it</div>
+    <h2 class="h-title reveal">Coordinators &amp; mentors.
+      <svg class="squiggle" width="200" height="18" viewBox="0 0 200 18"><path d="M2,10 C28,2 50,18 76,10 C100,2 126,18 152,10 C170,4 185,14 198,8"/></svg>
+    </h2>
+    <div class="people-tabs reveal">
+      <button class="active" data-cat="coordinator">Coordinators</button>
+      <button data-cat="mentor">Faculty mentors</button>
+      <button data-cat="all">Everyone</button>
+    </div>
+    <div class="people-grid show-coordinator reveal" id="peopleGrid">
+      <div class="person-card" data-cat="coordinator">
+        <div class="person-photo">N</div>
+        <div class="person-info"><h4>Nekehtran Team</h4><span>Student coordinators</span></div>
+      </div>
+      <div class="person-card" data-cat="coordinator">
+        <div class="person-photo">?</div>
+        <div class="person-info"><h4>Open slot</h4><span>Co-coordinator — apply below</span></div>
+      </div>
+      <div class="person-card" data-cat="coordinator">
+        <div class="person-photo">?</div>
+        <div class="person-info"><h4>Open slot</h4><span>Events lead — apply below</span></div>
+      </div>
+      <div class="person-card" data-cat="mentor">
+        <div class="person-photo">GT</div>
+        <div class="person-info"><h4>Dr. Glenson Toney</h4><span>Faculty mentor</span></div>
+      </div>
+      <div class="person-card" data-cat="mentor">
+        <div class="person-photo">RS</div>
+        <div class="person-info"><h4>Dr. Ruban S.</h4><span>Faculty mentor</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="drops">
+  <div class="wrap">
+    <div class="kicker">05 — What's next</div>
+    <h2 class="h-title reveal">Upcoming events.
+      <svg class="squiggle" width="190" height="18" viewBox="0 0 190 18"><path d="M2,10 C26,2 48,18 72,10 C96,2 120,18 144,10 C160,4 175,14 188,8"/></svg>
+    </h2>
+    <div class="drops reveal">
+      <div class="drop">
+        <div class="dnum">EVENT 01</div>
+        <div><h3>Build Night: Zero to Prototype</h3><p>Bring a problem, leave with a breadboard. Open to all years, no experience required.</p></div>
+        <div class="status">Open — limited seats</div>
+      </div>
+      <div class="drop">
+        <div class="dnum">EVENT 02</div>
+        <div><h3>Hackathon Bootcamp</h3><p>Pitch decks, rapid prototyping, and how to survive a 24-hour judging panel.</p></div>
+        <div class="status">Applications open</div>
+      </div>
+      <div class="drop">
+        <div class="dnum">EVENT 03</div>
+        <div><h3>Demo Day</h3><p>End-of-semester showcase — every track presents, real feedback, no gold stars.</p></div>
+        <div class="status">Save the date</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="torn" aria-hidden="true">
+  <svg preserveAspectRatio="none" viewBox="0 0 400 20"><path d="M0,4 L20,12 L40,2 L60,14 L80,4 L100,16 L120,3 L140,13 L160,5 L180,15 L200,4 L220,12 L240,2 L260,14 L280,4 L300,16 L320,3 L340,13 L360,5 L380,15 L400,4 L400,20 L0,20 Z" fill="var(--ink)"/></svg>
+</div>
+<section id="join" class="join no-border" style="position:relative;overflow:hidden;">
+  <svg class="doodle bob" viewBox="0 0 40 40" width="30" height="30" style="stroke:var(--yellow);top:18%;left:12%;"><path d="M20,2 L23,17 L38,20 L23,23 L20,38 L17,23 L2,20 L17,17 Z"/></svg>
+  <svg class="doodle bob rev" viewBox="0 0 40 40" width="24" height="24" style="stroke:var(--yellow);top:70%;right:14%;"><circle cx="20" cy="20" r="15"/></svg>
+  <div class="kicker">06 — Get involved</div>
+  <h2 class="h-title">Come <span class="hl">build</span><br>with us.</h2>
+  <form class="join-form" id="joinForm">
+    <input type="email" placeholder="your.email@aloysius.edu" required>
+    <button type="submit">Join →</button>
+  </form>
+  <small id="joinMsg">Meetings every other Friday. No spam, just build notes.</small>
+</section>
+
+<footer>
+  <div class="foot-logo">Innovation Club</div>
+  <div class="foot-links">
+    <a href="#about">About</a>
+    <a href="#tracks">Focus</a>
+    <a href="#people">People</a>
+    <a href="#drops">Events</a>
+  </div>
+  <div class="foot-links"><span>St. Aloysius School of Engineering · Mangalore</span></div>
+</footer>
+
+<script>
+  // reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+  },{threshold:0.12});
+  revealEls.forEach(el=>io.observe(el));
+
+  // mobile nav
+  const burger = document.getElementById('burger');
+  const mobileNav = document.getElementById('mobileNav');
+  burger.addEventListener('click', ()=> mobileNav.classList.toggle('open'));
+  mobileNav.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=> mobileNav.classList.remove('open')));
+
+  // people tabs
+  const tabs = document.querySelectorAll('.people-tabs button');
+  const grid = document.getElementById('peopleGrid');
+  tabs.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      tabs.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      grid.classList.remove('show-coordinator','show-mentor','show-all');
+      grid.classList.add('show-' + btn.dataset.cat);
+    });
+  });
+
+  // join form
+  const form = document.getElementById('joinForm');
+  const msg = document.getElementById('joinMsg');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    msg.textContent = "You're on the list. Watch your inbox.";
+    form.reset();
+  });
+</script>
+
+</body>
+</html>
