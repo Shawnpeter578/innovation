@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Innovation Club — St. Aloysius</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F4F0EA; /* Warmer, premium paper off-white */
+    --fg: #000000; /* Pure black for maximum contrast */
+    --accent: #FFD400;
+    --accent-secondary: #FF90E8;
+    --accent-tertiary: #90FFB9;
+    --border-color: #000000;
+    --border-width: 3px; /* Slightly bolder for a raw feel */
+    --shadow-solid: 8px 8px 0px var(--fg);
+    --shadow-solid-hover: 3px 3px 0px var(--fg);
+    --shadow-solid-lg: 12px 12px 0px var(--fg);
+    --ease-snappy: cubic-bezier(0.25, 1, 0.5, 1); /* Custom snappy transition */
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: none;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: 'Space Grotesk', sans-serif;
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  ::selection {
+    background: var(--accent-secondary); /* Pink text selection */
+    color: var(--fg);
+  }
+
+  a, button { cursor: none; }
+  a { color: inherit; text-decoration: none; }
+  img, svg { display: block; max-width: 100%; }
+
+  body::before {
+    content: "";
+    position: fixed; inset: 0; pointer-events: none; z-index: 998; opacity: 0.04; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .cursor-dot {
+    width: 20px; height: 20px;
+    background: var(--accent);
+    border: 2px solid var(--fg);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999;
+    transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+  }
+  .cursor-dot.hover-active {
+    width: 45px; height: 45px;
+    background: transparent;
+    backdrop-filter: invert(100%);
+    border-color: transparent;
+  }
+
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 5vw; }
+
+  header {
+    position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+    background: var(--bg);
+    border-bottom: var(--border-width) solid var(--border-color);
+    transition: transform 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease;
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 5vw;
+    max-width: 1280px; margin: 0 auto;
+  }
+  .brand { display: flex; align-items: center; gap: 16px; }
+  
+  .logo-box {
+    width: 48px; height: 48px;
+    background: var(--accent);
+    border: var(--border-width) solid var(--fg);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 3px 3px 0 var(--fg);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden; /* Ensure the image doesn't break the rounded corners */
+  }
+  .logo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Optional: If you want to force the brutalist vibe, you could add filter: grayscale(100%); */
+  }
+  .logo-box:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--fg);
+  }
+  
+  .logo-text {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 20px; text-transform: uppercase; letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .logo-text span { display: block; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: #555; }
+
+  nav ul { list-style: none; display: flex; gap: 30px; }
+  nav a {
+    font-family: 'JetBrains Mono', monospace; font-weight: 700;
+    font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em;
+    position: relative; padding: 5px 0;
+  }
+  nav a::before {
+    content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+    background: var(--fg); transform: scaleX(0); transform-origin: right;
+    transition: transform 0.3s ease;
+  }
+  nav a:hover::before { transform: scaleX(1); transform-origin: left; }
+
+  .btn {
+    font-family: 'JetBrains Mono', monospace; font-weight: 700;
+    font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;
+    padding: 14px 28px; border-radius: 8px;
+    border: var(--border-width) solid var(--fg);
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    transition: all 0.3s var(--ease-snappy);
+    background: var(--bg); color: var(--fg);
+    box-shadow: var(--shadow-solid);
+    position: relative; overflow: hidden;
+  }
+  .btn:hover {
+    transform: translate(4px, 4px);
+    box-shadow: var(--shadow-solid-hover);
+  }
+  .btn-primary { background: var(--accent); }
+  .btn-primary:hover { background: #E6BE00; }
+  
+  .burger { display: none; background: none; border: none; flex-direction: column; gap: 5px; padding: 5px; }
+  .burger div { width: 26px; height: 3px; background: var(--fg); transition: 0.3s ease; }
+
+  .hero {
+    position: relative;
+    padding: 160px 0 80px;
+    border-bottom: var(--border-width) solid var(--border-color);
+    /* Aesthetic architectural blueprint grid */
+    background-image: 
+      linear-gradient(rgba(0,0,0,0.06) 1.5px, transparent 1.5px),
+      linear-gradient(90deg, rgba(0,0,0,0.06) 1.5px, transparent 1.5px);
+    background-size: 40px 40px;
+    background-position: center center;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: ""; position: absolute; inset: 0; 
+    background: linear-gradient(to bottom, transparent 60%, var(--bg) 100%);
+    pointer-events: none; z-index: 1;
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+  }
+  
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    background: var(--bg);
+    border: 2px solid var(--fg); border-radius: 50px;
+    padding: 8px 16px; margin-bottom: 30px;
+    box-shadow: 3px 3px 0 var(--fg);
+  }
+  .badge .dot { width: 8px; height: 8px; background: #00E676; border-radius: 50%; border: 1px solid var(--fg); animation: pulse 2s infinite; }
+  @keyframes pulse { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(0, 230, 118, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); } }
+
+  /* OVERLAPPING HERO IMAGE & TEXT LOGIC */
+  .hero-overlay-group {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1100px;
+    margin: 20px auto 40px;
+  }
+  
+  .hero-img {
+    width: 100%;
+    max-width: 1000px;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    border: 4px solid var(--fg);
+    border-radius: 20px;
+    box-shadow: var(--shadow-solid-lg);
+    filter: grayscale(100%) contrast(1.1);
+    transition: filter 0.4s ease, transform 0.4s ease;
+  }
+  .hero-overlay-group:hover .hero-img {
+    filter: grayscale(0%) contrast(1);
+    transform: scale(1.02);
+  }
+
+  h1.hero-title {
+    position: absolute;
+    z-index: 10;
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(32px, 8vw, 110px);
+    line-height: 0.9; 
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    text-align: center;
+    width: 110%;
+    pointer-events: none;
+    
+    color: var(--bg);
+    -webkit-text-stroke: 3px var(--fg);
+    text-shadow: 8px 8px 0px var(--fg);
+  }
+
+  .highlight-wrap { position: relative; display: inline-block; pointer-events: auto; }
+  .highlight {
+    position: relative; z-index: 1;
+    background: var(--accent); color: var(--fg);
+    padding: 0 15px; border-radius: 8px;
+    border: var(--border-width) solid var(--fg);
+    display: inline-block;
+    transform: rotate(-2deg);
+    -webkit-text-stroke: 0;
+    text-shadow: none;
+    box-shadow: 8px 8px 0 var(--fg);
+    transition: transform 0.3s var(--ease-snappy);
+  }
+  .highlight-wrap:hover .highlight {
+    transform: rotate(0deg) scale(1.05);
+  }
+  
+  .handwriting { 
+    font-family: 'Caveat', cursive; 
+    font-size: clamp(24px, 4vw, 36px); 
+    color: var(--accent-secondary); 
+    transform: rotate(-10deg); 
+    position: absolute; z-index: 10; 
+    -webkit-text-stroke: 0;
+    text-shadow: none;
+  }
+
+  .hero-desc {
+    font-size: clamp(16px, 2vw, 20px); font-weight: 500;
+    max-width: 600px; margin-bottom: 40px; color: #333;
+    position: relative; z-index: 11;
+  }
+
+  .hero-actions { display: flex; gap: 20px; align-items: center; justify-content: center; flex-wrap: wrap; position: relative; z-index: 11; }
+
+  .doodle { position: absolute; pointer-events: none; z-index: 0; }
+  .d-star { top: 15%; right: 10%; width: 80px; animation: spin 20s linear infinite; }
+  .d-arrow { bottom: 25%; left: 15%; width: 100px; transform: rotate(-15deg); animation: float 3s ease-in-out infinite; }
+  
+  .d-rocket { 
+    bottom: 5%; 
+    left: -10%; 
+    width: 80px; 
+    transform: rotate(45deg);
+    animation: rocket-fly 8s ease-in-out infinite; 
+  }
+  
+  @keyframes spin { 100% { transform: rotate(360deg); } }
+  @keyframes float { 50% { transform: translateY(-10px) rotate(-15deg); } }
+  @keyframes rocket-fly { 
+    0% { transform: translate(0vw, 0vh) rotate(45deg); opacity: 0; } 
+    10% { opacity: 1; }
+    50% { transform: translate(50vw, -45vh) rotate(45deg); } 
+    90% { opacity: 1; }
+    100% { transform: translate(100vw, -90vh) rotate(45deg); opacity: 0; } 
+  }
+
+  .marquee-container {
+    background: var(--fg); color: var(--accent);
+    padding: 16px 0;
+    border-bottom: var(--border-width) solid var(--border-color);
+    display: flex; overflow: hidden; white-space: nowrap;
+    position: relative;
+  }
+  .marquee-content {
+    display: flex; gap: 40px;
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 24px; text-transform: uppercase; letter-spacing: 0.05em;
+    animation: scroll 15s linear infinite;
+  }
+  .marquee-content span { display: flex; align-items: center; gap: 40px; }
+  @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  section { padding: 120px 0; border-bottom: var(--border-width) solid var(--border-color); position: relative; }
+  .sec-header { margin-bottom: 60px; }
+  .sec-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 700;
+    background: var(--fg); color: var(--bg); padding: 4px 12px; border-radius: 50px;
+    display: inline-block; margin-bottom: 20px;
+  }
+  h2.sec-title {
+    font-family: 'Archivo Black', sans-serif; font-size: clamp(40px, 6vw, 72px);
+    line-height: 1; text-transform: uppercase; letter-spacing: -0.02em;
+  }
+
+  .about-layout {
+    display: grid; grid-template-columns: 1fr 0.8fr; gap: 60px; align-items: center;
+  }
+  .about-text p { font-size: 18px; margin-bottom: 24px; color: #222; }
+  .about-text strong { background: var(--accent-tertiary); padding: 2px 6px; border: 1.5px solid var(--fg); border-radius: 4px; }
+  
+  .brutal-card {
+    background: var(--bg);
+    border: var(--border-width) solid var(--fg);
+    border-radius: 16px; padding: 40px;
+    box-shadow: var(--shadow-solid-lg);
+    position: relative;
+  }
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+  .stat-item { display: flex; flex-direction: column; }
+  .stat-val { font-family: 'Archivo Black', sans-serif; font-size: 48px; color: var(--accent); text-shadow: 2px 2px 0 var(--fg); line-height: 1; margin-bottom: 8px;}
+  .stat-lbl { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; text-transform: uppercase; }
+
+  .vision-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+  }
+  .v-card {
+    background: var(--accent-secondary); border: var(--border-width) solid var(--fg); border-radius: 16px;
+    padding: 50px 40px; box-shadow: var(--shadow-solid);
+    transition: transform 0.2s;
+  }
+  .v-card:nth-child(2) { background: var(--accent); transform: translateY(20px); }
+  .v-card:hover { transform: translate(-4px, -4px) !important; box-shadow: var(--shadow-solid-lg); }
+  .v-icon { 
+    width: 60px; height: 60px; background: var(--bg); border: 2px solid var(--fg); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 30px;
+    box-shadow: 3px 3px 0 var(--fg);
+  }
+  .v-card h3 { font-family: 'Archivo Black', sans-serif; font-size: 32px; text-transform: uppercase; margin-bottom: 16px; }
+
+  .track-list { display: flex; flex-direction: column; gap: 20px; }
+  .track-item {
+    background: var(--bg); border: var(--border-width) solid var(--fg); border-radius: 12px;
+    box-shadow: var(--shadow-solid); padding: 30px;
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    transition: all 0.3s ease; position: relative; overflow: hidden;
+  }
+  .track-item:hover {
+    background: var(--accent); transform: translate(-4px, -4px); box-shadow: var(--shadow-solid-lg);
+  }
+  .track-info { flex: 1; }
+  .t-num { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 18px; opacity: 0.5; margin-bottom: 8px; display: block; }
+  .t-title { font-family: 'Archivo Black', sans-serif; font-size: 28px; text-transform: uppercase; margin-bottom: 10px; }
+  .t-desc { font-size: 16px; color: #333; max-width: 600px; }
+  .t-tags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+  .t-tag { 
+    background: var(--bg); border: 1.5px solid var(--fg); border-radius: 50px;
+    padding: 6px 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase;
+  }
+  .t-arrow {
+    width: 48px; height: 48px; border: 2px solid var(--fg); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; background: var(--bg);
+    transition: transform 0.3s; flex-shrink: 0;
+  }
+  .track-item:hover .t-arrow { transform: rotate(45deg); background: var(--fg); color: var(--accent); }
+
+  .filter-bar { display: flex; gap: 16px; margin-bottom: 40px; flex-wrap: wrap; }
+  .filter-btn {
+    background: var(--bg); border: 2px solid var(--fg); border-radius: 50px;
+    padding: 10px 24px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 14px; text-transform: uppercase;
+    box-shadow: 3px 3px 0 var(--fg); transition: 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--fg); color: var(--accent); transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--fg);
+  }
+
+  .people-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+  .person-card {
+    background: var(--bg); border: var(--border-width) solid var(--fg); border-radius: 12px;
+    overflow: hidden; box-shadow: var(--shadow-solid); transition: transform 0.2s;
+    display: none;
+  }
+  .person-card.show { display: block; animation: popIn 0.4s ease forwards; }
+  @keyframes popIn { 0% { opacity: 0; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1); } }
+  
+  .person-card:hover { transform: translate(-4px, -4px); box-shadow: var(--shadow-solid-lg); }
+  .p-avatar {
+    aspect-ratio: 1; background: #EEE; border-bottom: var(--border-width) solid var(--fg);
+    display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;
+  }
+  .p-avatar.y { background: var(--accent); }
+  .p-avatar.p { background: var(--accent-secondary); }
+  .p-avatar.g { background: var(--accent-tertiary); }
+  .p-initial { font-family: 'Archivo Black', sans-serif; font-size: 80px; color: rgba(17,17,17,0.8); }
+  .p-info { padding: 24px; }
+  .p-name { font-family: 'Archivo Black', sans-serif; font-size: 22px; text-transform: uppercase; line-height: 1.1; margin-bottom: 6px; }
+  .p-role { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #555; text-transform: uppercase; }
+
+  .bento-gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 280px;
+    gap: 24px;
+  }
+  .bento-card {
+    position: relative;
+    border: var(--border-width) solid var(--fg);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-solid);
+    transition: all 0.4s var(--ease-snappy);
+    background: var(--bg);
+    display: flex;
+    align-items: flex-end;
+  }
+  .bento-card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: var(--shadow-solid-lg);
+    border-color: var(--accent-tertiary);
+  }
+  .bento-card img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%) contrast(1.1);
+    transition: transform 0.6s var(--ease-snappy), filter 0.6s ease;
+  }
+  .bento-card:hover img {
+    transform: scale(1.06) rotate(-1.5deg);
+    filter: grayscale(0%) contrast(1);
+  }
+  
+  .bento-large { grid-column: span 2; grid-row: span 2; }
+  .bento-wide { grid-column: span 2; grid-row: span 1; }
+  .bento-tall { grid-column: span 1; grid-row: span 2; }
+
+  /* EVENTS BLUR EFFECTS */
+  .events-wrapper {
+    position: relative;
+  }
+  .blurred-grid {
+    filter: blur(6px) grayscale(30%);
+    opacity: 0.6;
+    pointer-events: none; /* Disables clicking/hovering entirely */
+    user-select: none;
+  }
+  .coming-soon-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+  }
+  .cs-badge {
+    background: var(--accent); 
+    color: var(--fg);
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(24px, 6vw, 48px);
+    padding: 16px 32px;
+    border: var(--border-width) solid var(--fg);
+    border-radius: 12px;
+    box-shadow: 8px 8px 0 var(--fg);
+    transform: rotate(-3deg);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    animation: floatBadge 4s ease-in-out infinite;
+  }
+  @keyframes floatBadge {
+    0%, 100% { transform: translateY(0px) rotate(-3deg); }
+    50% { transform: translateY(-12px) rotate(-3deg); box-shadow: 12px 20px 0 var(--fg); }
+  }
+
+  .drops-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+  .drop-card {
+    background: var(--bg); border: var(--border-width) solid var(--fg); border-radius: 16px;
+    padding: 30px; box-shadow: var(--shadow-solid); display: flex; flex-direction: column;
+    transition: 0.2s;
+  }
+  .d-date { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; border-bottom: 2px solid var(--fg); padding-bottom: 10px; margin-bottom: 20px; }
+  .d-title { font-family: 'Archivo Black', sans-serif; font-size: 26px; text-transform: uppercase; line-height: 1.1; margin-bottom: 12px; }
+  .d-desc { font-size: 15px; flex-grow: 1; margin-bottom: 24px; }
+  .d-status { 
+    display: inline-block; padding: 6px 12px; border: 2px solid var(--fg); border-radius: 50px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase;
+    background: var(--bg); align-self: flex-start;
+  }
+
+  .join-sec {
+    background: var(--fg); color: var(--bg); text-align: center; padding: 140px 0; overflow: hidden;
+  }
+  .join-sec .sec-num { background: var(--accent); color: var(--fg); }
+  .join-title { font-family: 'Archivo Black', sans-serif; font-size: clamp(40px, 8vw, 100px); text-transform: uppercase; line-height: 0.9; margin-bottom: 40px; }
+  .join-title span { color: var(--accent); }
+  
+  .join-form {
+    max-width: 600px; margin: 0 auto; display: flex; justify-content: center; position: relative; z-index: 2;
+  }
+  .join-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent); border: var(--border-width) solid var(--accent); border-radius: 8px;
+    padding: 20px 40px; font-family: 'Archivo Black', sans-serif; font-size: 18px; text-transform: uppercase;
+    color: var(--fg); transition: 0.2s;
+    text-decoration: none;
+  }
+  .join-btn:hover { background: #E6BE00; transform: translate(4px, 4px); box-shadow: var(--shadow-solid-hover); }
+
+  footer {
+    background: var(--bg); border-top: var(--border-width) solid var(--border-color);
+    padding: 60px 0;
+  }
+  .footer-inner {
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 40px;
+  }
+  .f-brand { font-family: 'Archivo Black', sans-serif; font-size: 24px; text-transform: uppercase; }
+  .f-links { display: flex; gap: 30px; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; text-transform: uppercase; }
+  .f-links a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+  
+  .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s var(--ease-snappy); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  
+  @media (max-width: 900px) {
+    nav ul, .nav-cta { display: none; }
+    .burger { display: flex; }
+    .about-layout { grid-template-columns: 1fr; gap: 40px; }
+    .vision-grid { grid-template-columns: 1fr; }
+    .drops-grid { grid-template-columns: 1fr; }
+    .v-card:nth-child(2) { transform: translateY(0); }
+    .join-form { flex-direction: column; padding: 0 5vw; }
+    .join-btn { padding: 20px; width: 100%; }
+    h1.hero-title { width: 100%; -webkit-text-stroke: 2px var(--fg); font-size: clamp(40px, 10vw, 80px); }
+    
+    .bento-gallery { grid-template-columns: repeat(2, 1fr); }
+    .bento-large { grid-column: span 2; grid-row: span 2; }
+    .bento-wide { grid-column: span 2; grid-row: span 1; }
+    .bento-tall { grid-column: span 1; grid-row: span 2; }
+  }
+  @media (max-width: 600px) {
+    section { padding: 70px 0; }
+    .sec-header { margin-bottom: 40px; }
+    .f-links { flex-direction: column; gap: 15px; }
+    .stat-grid { grid-template-columns: 1fr; }
+    .track-item { flex-direction: column; align-items: flex-start; }
+    .t-arrow { display: none; }
+    .people-grid { grid-template-columns: 1fr; }
+    
+    .bento-gallery { grid-template-columns: 1fr; grid-auto-rows: 250px; }
+    .bento-large, .bento-wide, .bento-tall { grid-column: span 1; grid-row: span 1; }
+
+    .hero { padding: 120px 0 60px; }
+    h1.hero-title { 
+      font-size: 13vw !important; 
+      text-shadow: 4px 4px 0px var(--fg) !important; 
+      width: 100%;
+      -webkit-text-stroke: 1.5px var(--fg);
+    }
+    .hero-img { aspect-ratio: 4/3; }
+    .highlight { box-shadow: 4px 4px 0 var(--fg) !important; }
+    .handwriting { bottom: -15px !important; right: 0 !important; font-size: 20px !important; }
+    .hero-actions { flex-direction: column; width: 100%; gap: 16px; }
+    .hero-actions .btn { width: 100%; }
+    .join-form { width: 100%; padding: 0; }
+    .join-title { font-size: clamp(36px, 12vw, 60px); }
+  }
+
+  .mobile-menu {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+    background: var(--accent); z-index: 99;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px;
+    transform: translateY(-100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .mobile-menu.open { transform: translateY(0); }
+  .mobile-menu a { font-family: 'Archivo Black', sans-serif; font-size: 40px; text-transform: uppercase; color: var(--fg); }
+
+  /* Optimize Custom Cursor & Hover states for Touch Devices */
+  @media (pointer: coarse) {
+    .cursor-dot { display: none !important; }
+    * { cursor: auto !important; }
+    a, button, input, .hover-target { cursor: pointer !important; }
+    .bento-card img { filter: grayscale(0%) contrast(1); }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursorDot"></div>
+
+<header id="header">
+  <div class="nav-inner">
+    <a href="#" class="brand hover-target">
+      <div class="logo-box">
+        <img src="images/logo.png" alt="Innovation Club Logo">
+      </div>
+      <div class="logo-text">Innovation Club<span>St. Aloysius</span></div>
+    </a>
+    <nav>
+      <ul>
+        <li><a href="#about" class="hover-target">About</a></li>
+        <li><a href="#tracks" class="hover-target">Tracks</a></li>
+        <li><a href="#gallery" class="hover-target">Gallery</a></li>
+        <li><a href="#events" class="hover-target">Events</a></li>
+      </ul>
+    </nav>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLScdoJ2cmHQ7KosqYD7ApSVVIhwKXrkP0sODR87rjg92QyD0lw/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" class="btn btn-primary nav-cta hover-target">Join Us</a>
+    <button class="burger hover-target" id="burgerBtn" aria-label="Toggle Menu">
+      <div></div><div></div><div></div>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" class="mob-link">About</a>
+  <a href="#tracks" class="mob-link">Tracks</a>
+  <a href="#gallery" class="mob-link">Gallery</a>
+  <a href="#events" class="mob-link">Events</a>
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLScdoJ2cmHQ7KosqYD7ApSVVIhwKXrkP0sODR87rjg92QyD0lw/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="margin-top: 20px;">Join Us</a>
+</div>
+
+<section class="hero">
+  <!-- Doodles -->
+  <svg class="doodle d-rocket" viewBox="0 0 24 24" fill="none" stroke="var(--fg)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
+    <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
+    <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path>
+    <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
+  </svg>
+  <svg class="doodle d-star" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M50 0L56.1006 43.8994L100 50L56.1006 56.1006L50 100L43.8994 56.1006L0 50L43.8994 43.8994L50 0Z" fill="var(--accent)"/>
+    <path d="M50 0L56.1006 43.8994L100 50L56.1006 56.1006L50 100L43.8994 56.1006L0 50L43.8994 43.8994L50 0Z" stroke="var(--fg)" stroke-width="4"/>
+  </svg>
+  <svg class="doodle d-arrow" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 100C40 80 80 40 100 20M100 20V70M100 20H50" stroke="var(--fg)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+
+  <div class="wrap hero-content reveal">
+    <div class="badge">
+      <div class="dot"></div>
+      Open for 2026-27
+    </div>
+    
+    <!-- Image & Text Overlap Group -->
+    <div class="hero-overlay-group">
+      <!-- High quality landscape image -->
+      <img src="https://i.pinimg.com/1200x/30/6a/33/306a333839849d9a01db3594db84987c.jpg" alt="Visionary Collaborative Workspace" class="hero-img hover-target">
+      
+      <!-- Text overlapping perfectly -->
+      <h1 class="hero-title">
+        Build <br>
+        <span class="highlight-wrap">
+          <span class="highlight">What Doesn't</span>
+          <div class="handwriting" style="bottom:-30px; right:-40px;">yet! ✦</div>
+        </span><br>
+        Exist.
+      </h1>
+    </div>
+    
+    <p class="hero-desc">
+      A student-run makerspace for hardware, software, and applied ML. We skip the slide decks and go straight to prototyping.
+    </p>
+    
+    <div class="hero-actions">
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLScdoJ2cmHQ7KosqYD7ApSVVIhwKXrkP0sODR87rjg92QyD0lw/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" class="btn btn-primary hover-target" style="padding: 18px 36px; font-size: 16px;">Start Building</a>
+      <a href="#about" class="btn hover-target" style="padding: 18px 36px; font-size: 16px;">Read Manifesto</a>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-container">
+  <div class="marquee-content">
+    <span>BUILD THE FUTURE ✦ HARDWARE ✦ SOFTWARE ✦ APPLIED AI ✦ HACKATHONS ✦ PROTOTYPING ✦ NO SLIDE DECKS ✦</span>
+    <span>BUILD THE FUTURE ✦ HARDWARE ✦ SOFTWARE ✦ APPLIED AI ✦ HACKATHONS ✦ PROTOTYPING ✦ NO SLIDE DECKS ✦</span>
+  </div>
+</div>
+
+<section id="about">
+  <div class="wrap">
+    <div class="sec-header reveal">
+      <div class="sec-num">01</div>
+      <h2 class="sec-title">What we are.</h2>
+    </div>
+    
+    <div class="about-layout reveal">
+      <div class="about-text">
+        <p>The Innovation Club is the School of Engineering's home for students who'd rather <strong>ship a working prototype</strong> than sit through another lecture.</p>
+        <p>We run weekly build sessions, hackathon prep, and open project pods. Open to every branch and every year, from your first semester onward.</p>
+        <p>No club fee. No attendance sheet. You show up when you're building something, and you leave with people who'll debug it with you at 2 AM.</p>
+      </div>
+      
+      <div class="brutal-card hover-target">
+        <div class="handwriting" style="top:-30px; right:10px; color: var(--accent-secondary);">The stats!</div>
+        <div class="stat-grid">
+          <div class="stat-item"><span class="stat-val">3+</span><span class="stat-lbl">Active Tracks</span></div>
+          <div class="stat-item"><span class="stat-val">2</span><span class="stat-lbl">Mentors</span></div>
+          <div class="stat-item"><span class="stat-val">24</span><span class="stat-lbl">Hr Hacks</span></div>
+          <div class="stat-item"><span class="stat-val">∞</span><span class="stat-lbl">Coffee</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="vision" style="background-color: var(--fg); color: var(--bg); --border-color: #333;">
+  <div class="wrap">
+    <div class="sec-header reveal">
+      <div class="sec-num" style="background: var(--accent); color: var(--fg);">02</div>
+      <h2 class="sec-title" style="color: var(--bg);">Aim & Vision</h2>
+    </div>
+    
+    <div class="vision-grid reveal">
+      <div class="v-card hover-target" style="color: var(--fg);">
+        <div class="v-icon">🎯</div>
+        <h3>The Aim</h3>
+        <p>To give every engineering student a low-pressure space to turn ideas into working prototypes—and the mentorship to push those prototypes further than a classroom project ever would.</p>
+      </div>
+      
+      <div class="v-card hover-target" style="color: var(--fg);">
+        <div class="v-icon">👁️</div>
+        <h3>The Vision</h3>
+        <p>A campus where building something real is the default extracurricular. Where hackathon wins, published papers, and half-finished weekend builds all come from the same shared workshop culture.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tracks">
+  <div class="wrap">
+    <div class="sec-header reveal">
+      <div class="sec-num">03</div>
+      <h2 class="sec-title">Focus Tracks</h2>
+    </div>
+    
+    <div class="track-list">
+      <div class="track-item reveal hover-target">
+        <div class="track-info">
+          <span class="t-num">01</span>
+          <h4 class="t-title">Hardware & Embedded</h4>
+          <p class="t-desc">Assistive tech, IoT retrofits, and physical prototypes — from smart canes to campus infrastructure fixes.</p>
+          <div class="t-tags">
+            <span class="t-tag">ESP32</span><span class="t-tag">Sensors</span><span class="t-tag">Arduino</span>
+          </div>
+        </div>
+        <div class="t-arrow">
+           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+      
+      <div class="track-item reveal hover-target">
+        <div class="track-info">
+          <span class="t-num">02</span>
+          <h4 class="t-title">Apps & Product</h4>
+          <p class="t-desc">Full-stack builds for campus and community, shipped with real users and real feedback loops.</p>
+          <div class="t-tags">
+            <span class="t-tag">Flutter</span><span class="t-tag">Next.js</span><span class="t-tag">UI/UX</span>
+          </div>
+        </div>
+        <div class="t-arrow">
+           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+      
+      <div class="track-item reveal hover-target">
+        <div class="track-info">
+          <span class="t-num">03</span>
+          <h4 class="t-title">Applied ML & AI</h4>
+          <p class="t-desc">Training models, computer vision, and deploying intelligent systems that actually solve real-world problems.</p>
+          <div class="t-tags">
+            <span class="t-tag">Python</span><span class="t-tag">PyTorch</span><span class="t-tag">LLMs</span>
+          </div>
+        </div>
+        <div class="t-arrow">
+           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+
+      <div class="track-item reveal hover-target">
+        <div class="track-info">
+          <span class="t-num">04</span>
+          <h4 class="t-title">Creative & Fun</h4>
+          <p class="t-desc">Game dev, generative art, chaotic hardware hacks, and building things just because they are ridiculously fun.</p>
+          <div class="t-tags">
+            <span class="t-tag">Game Dev</span><span class="t-tag">Three.js</span><span class="t-tag">Art</span>
+          </div>
+        </div>
+        <div class="t-arrow">
+           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="people">
+  <div class="wrap">
+    <div class="sec-header reveal">
+      <div class="sec-num">04</div>
+      <h2 class="sec-title">The People</h2>
+    </div>
+    
+    <div class="filter-bar reveal">
+      <button class="filter-btn active hover-target" data-filter="all">All</button>
+      <button class="filter-btn hover-target" data-filter="lead">Leads</button>
+      <button class="filter-btn hover-target" data-filter="mentor">Mentors</button>
+    </div>
+    
+    <div class="people-grid">
+      <div class="person-card show" data-category="lead">
+        <div class="p-avatar y"><span class="p-initial"><img src="images/shawne.png" alt=""></span></div>
+        <div class="p-info">
+          <h4 class="p-name">Shawn Peter Britto</h4>
+          <span class="p-role">Student Coordinator</span>
+        </div>
+      </div>
+      
+      <div class="person-card show" data-category="lead">
+        <div class="p-avatar p"><span class="p-initial"><img src="images/chris1.png" style="width: 400px; height: 400px;" alt=""></span></div>
+        <div class="p-info">
+          <h4 class="p-name">Chris Toyd Fernandes</h4>
+          <span class="p-role">Co-Coordinator</span>
+        </div>
+      </div>
+      
+      <div class="person-card show" data-category="mentor">
+        <div class="p-avatar g"><span class="p-initial"><img src="images/siraj.jpg" style="height: 355px;" alt=""></span></div>
+        <div class="p-info">
+          <h4 class="p-name">Mohammed Siraj B</h4>
+          <span class="p-role">Faculty Mentor</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery" style="background-color: var(--fg); color: var(--bg); --border-color: #333;">
+  <div class="wrap">
+    <div class="sec-header reveal">
+      <div class="sec-num" style="background: var(--accent); color: var(--fg);">05</div>
+      <h2 class="sec-title" style="color: var(--bg);">The Gallery</h2>
+    </div>
+    
+    <div class="bento-gallery reveal">
+      
+      <!-- Large Feature Card -->
+      <div class="bento-card bento-large hover-target">
+        <img src="images/win.JPG" alt="Team collaborating">
+      </div>
+      
+      <!-- Tall Portrait Card -->
+      <div class="bento-card bento-tall hover-target">
+        <img src="images/us.png" alt="Coding on laptops">
+      </div>
+
+      <!-- Standard Square Card -->
+      <div class="bento-card hover-target">
+        <img src="images/pre.png" alt="Hardware hacking">
+      </div>
+      
+      <!-- Standard Square Card -->
+      <div class="bento-card hover-target">
+        <img src="images/band2.jpg" alt="Motherboard">
+      </div>
+      
+      <!-- Wide Landscape Card -->
+      <div class="bento-card bento-wide hover-target">
+        <img src="images/band.jpg" height="100px" alt="Hackathon winning team">
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="events" style="background-color: var(--accent-tertiary); --border-color: var(--fg);">
+  <div class="wrap">
+    <div class="sec-header reveal">
+      <div class="sec-num">06</div>
+      <h2 class="sec-title">Upcoming Drops</h2>
+    </div>
+    
+    <div class="events-wrapper reveal">
+      <div class="drops-grid blurred-grid">
+        <!-- Disabled hover-target classes to prevent the cursor from growing since it's inactive -->
+        <div class="drop-card">
+          <div class="d-date">SEP 12 — 5:00 PM</div>
+          <h3 class="d-title">Zero to Prototype</h3>
+          <p class="d-desc">Bring a problem, leave with a breadboard circuit. No experience required.</p>
+          <span class="d-status">RSVP Open</span>
+        </div>
+        
+        <div class="drop-card" style="background: var(--bg);">
+          <div class="d-date">OCT 05 — ALL DAY</div>
+          <h3 class="d-title">Hack Bootcamp</h3>
+          <p class="d-desc">Pitch decks, API setups, and surviving a 24-hour judging panel.</p>
+          <span class="d-status">Coming Soon</span>
+        </div>
+      </div>
+      
+      <!-- The stylish brutalist coming soon overlay -->
+      <div class="coming-soon-overlay">
+        <div class="cs-badge">Coming Soon</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="join" class="join-sec">
+  <div class="wrap">
+    <div class="sec-num reveal">07</div>
+    <h2 class="join-title reveal">Come <span>Build</span><br>With Us.</h2>
+    
+    <div class="join-form reveal">
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLScdoJ2cmHQ7KosqYD7ApSVVIhwKXrkP0sODR87rjg92QyD0lw/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" class="join-btn hover-target">
+        Open Application Form
+      </a>
+    </div>
+    <div style="margin-top: 20px; font-family: 'JetBrains Mono'; font-size: 14px; opacity: 0.7;">Redirects to our official Google Form.</div>
+  </div>
+  
+  <svg class="doodle" style="bottom: -50px; left: -50px; width: 300px; opacity: 0.2; stroke: var(--bg);" viewBox="0 0 100 100" fill="none">
+    <circle cx="50" cy="50" r="40" stroke-width="4"/>
+  </svg>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="f-brand">Innovation Club</div>
+    <div class="f-links">
+      <a href="#about" class="hover-target">About</a>
+      <a href="#tracks" class="hover-target">Tracks</a>
+      <a href="#gallery" class="hover-target">Gallery</a>
+      <a href="#events" class="hover-target">Events</a>
+    </div>
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; opacity: 0.6;">
+      St. Aloysius School of Engineering, Mangaluru
+    </div>
+  </div>
+</footer>
+
+<script>
+  const cursorDot = document.getElementById('cursorDot');
+  const hoverTargets = document.querySelectorAll('.hover-target, a, button, input');
+
+  document.addEventListener('mousemove', (e) => {
+    cursorDot.style.left = e.clientX + 'px';
+    cursorDot.style.top = e.clientY + 'px';
+  });
+
+  hoverTargets.forEach(target => {
+    target.addEventListener('mouseenter', () => cursorDot.classList.add('hover-active'));
+    target.addEventListener('mouseleave', () => cursorDot.classList.remove('hover-active'));
+  });
+
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  const magneticBtns = document.querySelectorAll('.btn');
+  magneticBtns.forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      btn.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = 'translate(0px, 0px)';
+      setTimeout(() => btn.style.transform = '', 10); 
+    });
+  });
+
+  const burgerBtn = document.getElementById('burgerBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobLinks = document.querySelectorAll('.mob-link');
+
+  burgerBtn.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+  mobLinks.forEach(link => link.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      header.style.padding = '10px 0';
+      header.style.boxShadow = '0 4px 0 #111';
+    } else {
+      header.style.padding = '0';
+      header.style.boxShadow = 'none';
+    }
+  });
+
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const peopleCards = document.querySelectorAll('.person-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.getAttribute('data-filter');
+
+      peopleCards.forEach(card => {
+        card.classList.remove('show');
+        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+          setTimeout(() => card.classList.add('show'), 10);
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
